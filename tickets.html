@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTickets</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .qrcode-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .qrcode-details {
+            margin-left: 20px;
+            text-align: left;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #qrcode {
+            margin-top: 20px;
+            animation: fadeIn 1s ease forwards;
+	        opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Booking Section -->
+    <section class="booking">
+        <h2>Book Your Tickets</h2>
+        <form id="bookingForm">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date">
+            <label for="showtime">Select Showtime:</label>
+            <select id="showtime" name="showtime">
+                <option value="11:00">11:00</option>
+                <option value="13:00">13:00</option>
+                <option value="15:00">15:00</option>
+                <option value="17:00">17:00</option>
+                <option value="19:00">19:00</option>
+                <!-- Add more showtime options here -->
+            </select>
+            <label for="seats">Select Seats:</label>
+            <select id="seats" name="seats">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <label for="seats">Seating Arrangement:</label>
+            <select id="arrangement" name="arrangement">
+                <option value="1">Row A</option>
+                <option value="2">Row B</option>
+                <option value="3">Row C</option>
+            </select>
+            <button type="button" onclick="generateQRCode()">Book Tickets</button>
+        </form>
+
+        <!-- QR Code will be generated here -->
+        <div class="qrcode-container">
+            <div id="qrcode"></div>
+            <div class="qrcode-details" id="qrcodeDetails"></div>
+        </div>
+    </section>
+
+    <!-- Include QRCode.js library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        function generateQRCode() {
+            // Gets the form values
+            const date = document.getElementById("date").value;
+            const showtime = document.getElementById("showtime").value;
+            const seats = document.getElementById("seats").value;
+            const arrangement =document.getElementById("arrangement").value;
+
+            // Combines the values into a text string
+            const ticketInfo = `Date: ${date}, Showtime: ${showtime}, Seats: ${seats},Arrangement: ${arrangement}`;
+
+            // Clears the previous QR code
+            document.getElementById("qrcode").innerHTML = "";
+            document.getElementById("qrcodeDetails").innerHTML = "";
+
+            // Generates the QR code
+            new QRCode(document.getElementById("qrcode"), {
+                text: ticketInfo,
+                width: 300,
+                height: 300
+            });
+            // Displays the QR code details next to the QR code
+            document.getElementById("qrcodeDetails").innerHTML = ticketInfo;
+        }
+    </script>
+</body>
+</html>
